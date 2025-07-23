@@ -1,9 +1,10 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import StatsPage from "./pages/StatsPage";
-import RecommenderPage from "./pages/RecommenderPage";
 import Navbar from "./components/Navbar";
+import HomePage from "./pages/HomePage";
+import FilmsPage from "./pages/FilmsPage";
+import UsersPage from "./pages/UsersPage";
+import SuperlativesPage from "./pages/SuperlativesPage";
+import RecommenderPage from "./pages/RecommenderPage";
 
 function App() {
 	return (
@@ -11,8 +12,10 @@ function App() {
 			<Navbar />
 			<Routes>
 				<Route path="/" element={<HomePage />} />
+				<Route path="/films" element={<FilmsPage />} />
+				<Route path="/users" element={<UsersPage />} />
+				<Route path="/superlatives" element={<SuperlativesPage />} />
 				<Route path="/recommender" element={<RecommenderPage />} />
-				<Route path="/stats" element={<StatsPage />} />
 			</Routes>
 		</Router>
 	);
