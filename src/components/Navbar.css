@@ -6,6 +6,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	position: relative;
 }
 
 .navbar__brand a {
@@ -15,11 +16,18 @@
 	text-decoration: none;
 }
 
+.navbar__menu {
+	display: flex;
+	align-items: center;
+}
+
+/* Links for desktop */
 .navbar__links {
 	list-style: none;
 	display: flex;
 	gap: 1.5rem;
 	margin: 0;
+	transition: max-height 0.3s ease-in-out;
 }
 
 .navbar__links a {
@@ -27,6 +35,80 @@
 	text-decoration: none;
 	font-weight: 500;
 	transition: color 0.2s ease;
+	position: relative;
+}
+
+.navbar__links a.active::after {
+	content: "";
+	display: block;
+	width: 100%;
+	height: 2px;
+	background-color: #dd7711;
+	position: absolute;
+	bottom: -4px;
+	left: 0;
+}
+
+/* Hamburger styles */
+.navbar__toggle {
+	display: none;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	cursor: pointer;
+	margin-left: auto;
+	margin-right: 0;
+	background: none; /* Remove default button background */
+	border: none; /* Remove default border */
+	padding: 0; /* Remove default padding */
+	overflow: visible;
+}
+
+.bar {
+	width: 30px;
+	height: 3px;
+	background-color: #fff;
+	margin: 4px 0;
+	transition: 0.3s;
+	transform-origin: center;
+}
+
+/* Hamburger animation when active */
+.bar.open:nth-child(1) {
+	transform: rotate(45deg) translate(7.7px, 7.7px);
+}
+.bar.open:nth-child(2) {
+	opacity: 0;
+}
+.bar.open:nth-child(3) {
+	transform: rotate(-45deg) translate(7.7px, -7.7px);
+}
+
+/* Mobile Menu */
+@media (max-width: 768px) {
+	.navbar__toggle {
+		display: flex;
+	}
+	.navbar__links {
+		flex-direction: column;
+		position: absolute;
+		top: 60px;
+		left: 0;
+		width: 100%;
+		background-color: #111;
+		overflow: hidden;
+		max-height: 0;
+	}
+	.navbar__links.active {
+		max-height: 500px;
+		padding: 1rem 0;
+	}
+
+	.navbar__links li {
+		padding: 0.75rem;
+		text-align: center;
+	}
 }
 
 .navbar__links a:hover {
@@ -38,4 +120,30 @@
 	color: #dd7711;
 	font-weight: bold;
 	/* border-bottom: 2px solid #dd7711; Optional underline for emphasis */
+}
+
+.navbar__links a::after {
+	content: "";
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background-color: #dd7711;
+	transform: scaleX(0);
+	transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+	.navbar {
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.navbar__links {
+		flex-direction: column;
+		width: 100%;
+		padding: 0.5rem 0;
+		gap: 1rem;
+	}
 }
