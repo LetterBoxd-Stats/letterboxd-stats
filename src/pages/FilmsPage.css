@@ -1,0 +1,61 @@
+.films-page {
+	padding: 2rem;
+	color: #fff;
+	background-color: #111;
+	min-height: 100vh;
+}
+
+.films-page h1 {
+	color: #dd7711;
+	text-align: center;
+	margin-bottom: 1rem;
+}
+
+.films-list {
+	list-style: none;
+	padding: 0;
+	margin: 0 auto;
+	max-width: 600px;
+}
+
+.films-list li {
+	margin: 0.8rem 0;
+	font-size: 1.1rem;
+}
+
+.films-list a {
+	color: #fff;
+	text-decoration: none;
+}
+
+.films-list a:hover {
+	color: #dd7711;
+}
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	margin-top: 1.5rem;
+}
+
+.pagination button {
+	background-color: #dd7711;
+	color: #fff;
+	border: none;
+	padding: 0.6rem 1.2rem;
+	font-size: 1rem;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background 0.3s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+	background-color: #bb660f;
+}
+
+.pagination button:disabled {
+	background-color: #444;
+	cursor: not-allowed;
+}
