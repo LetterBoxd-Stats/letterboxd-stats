@@ -15,9 +15,8 @@ function FilmsPage() {
 		const fetchFilms = async () => {
 			try {
 				setLoading(true);
-				console.log(`Fetching films from ${API_BASE_URL}/films`);
 				const response = await axios.get(`${API_BASE_URL}/films`);
-				setFilms(response.data.films);
+				setFilms(response.data);
 			} catch (err) {
 				setError(
 					`Failed to fetch films: ${
