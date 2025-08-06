@@ -5,6 +5,8 @@ import "./FilmsPage.css";
 function FilmsPage() {
 	const [films, setFilms] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [pageInput, setPageInput] = useState("1"); // New state for input box
+	const [totalPages, setTotalPages] = useState(1);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
@@ -15,8 +17,15 @@ function FilmsPage() {
 		const fetchFilms = async () => {
 			try {
 				setLoading(true);
-				const response = await axios.get(`${API_BASE_URL}/films`);
-				setFilms(response.data);
+				setError(null);
+
+				const response = await axios.get(`${API_BASE_URL}/films`, {
+					params: { page: currentPage, limit: FILMS_PER_PAGE },
+				});
+
+				setFilms(response.data.films);
+				setTotalPages(response.data.total_pages);
+				setPageInput(String(currentPage)); // Sync input with confirmed page
 			} catch (err) {
 				setError(
 					`Failed to fetch films: ${
@@ -29,13 +38,10 @@ function FilmsPage() {
 		};
 
 		fetchFilms();
-	}, [API_BASE_URL]);
-
-	const startIndex = (currentPage - 1) * FILMS_PER_PAGE;
-	const currentFilms = films.slice(startIndex, startIndex + FILMS_PER_PAGE);
+	}, [API_BASE_URL, currentPage]);
 
 	const nextPage = () => {
-		if (startIndex + FILMS_PER_PAGE < films.length) {
+		if (currentPage < totalPages) {
 			setCurrentPage((prev) => prev + 1);
 		}
 	};
@@ -46,6 +52,22 @@ function FilmsPage() {
 		}
 	};
 
+	const handlePageInputChange = (e) => {
+		setPageInput(e.target.value); // Just update the input state
+	};
+
+	const handlePageInputKeyDown = (e) => {
+		if (e.key === "Enter") {
+			let value = parseInt(pageInput, 10);
+			if (isNaN(value) || value < 1) {
+				value = 1;
+			} else if (value > totalPages) {
+				value = totalPages;
+			}
+			setCurrentPage(value); // Confirm and trigger fetch
+		}
+	};
+
 	if (loading) return <p className="loading">Loading films...</p>;
 	if (error) return <p className="error">{error}</p>;
 
@@ -53,10 +75,10 @@ function FilmsPage() {
 		<div className="films-page">
 			<h1>Films</h1>
 			<ul className="films-list">
-				{currentFilms.map((film) => (
+				{films.map((film) => (
 					<li key={film.film_id}>
 						<a
-							href={film.film_link}
+							href={`${film.film_link}`}
 							target="_blank"
 							rel="noopener noreferrer"
 						>
@@ -69,10 +91,20 @@ function FilmsPage() {
 				<button onClick={prevPage} disabled={currentPage === 1}>
 					Previous
 				</button>
-				<span>Page {currentPage}</span>
+				<span>
+					Page{" "}
+					<input
+						type="number"
+						value={pageInput}
+						onChange={handlePageInputChange}
+						onKeyDown={handlePageInputKeyDown}
+						style={{ width: "60px", textAlign: "center" }}
+					/>{" "}
+					of {totalPages}
+				</span>
 				<button
 					onClick={nextPage}
-					disabled={startIndex + FILMS_PER_PAGE >= films.length}
+					disabled={currentPage === totalPages}
 				>
 					Next
 				</button>
