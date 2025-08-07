@@ -95,10 +95,10 @@ function FilmsPage() {
 					Page{" "}
 					<input
 						type="number"
+						className="pagination-input"
 						value={pageInput}
 						onChange={handlePageInputChange}
 						onKeyDown={handlePageInputKeyDown}
-						style={{ width: "60px", textAlign: "center" }}
 					/>{" "}
 					of {totalPages}
 				</span>
