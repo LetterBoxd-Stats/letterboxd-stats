@@ -85,11 +85,6 @@
 	color: #dd7711;
 }
 
-/* Slight scale-up of arrow on header hover for unified feedback */
-.film-header:hover .expand-arrow {
-	transform: scale(1.2);
-}
-
 /* Arrow rotation when expanded */
 .expand-arrow.expanded {
 	transform: rotate(180deg) !important;
