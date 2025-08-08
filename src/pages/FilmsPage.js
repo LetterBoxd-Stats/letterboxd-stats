@@ -108,7 +108,13 @@ function FilmsPage() {
 											: 0}{" "}
 										ratings)
 									</span>
-									<span className="expand-arrow">▼</span>
+									<span
+										className={`expand-arrow ${
+											isExpanded ? "expanded" : ""
+										}`}
+									>
+										▼
+									</span>
 								</div>
 							</div>
 

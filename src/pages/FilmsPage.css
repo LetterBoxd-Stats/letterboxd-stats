@@ -92,7 +92,7 @@
 
 /* Arrow rotation when expanded */
 .expand-arrow.expanded {
-	transform: rotate(90deg);
+	transform: rotate(180deg) !important;
 }
 
 /* Dropdown details */
