@@ -11,6 +11,14 @@ function FilmsPage() {
 	const [error, setError] = useState(null);
 	const [expandedFilmIds, setExpandedFilmIds] = useState(new Set());
 
+	// Current applied sorting
+	const [sortBy, setSortBy] = useState("film_title");
+	const [sortOrder, setSortOrder] = useState("asc");
+
+	// Pending sort controls (updated on select changes)
+	const [pendingSortBy, setPendingSortBy] = useState(sortBy);
+	const [pendingSortOrder, setPendingSortOrder] = useState(sortOrder);
+
 	const FILMS_PER_PAGE = 20;
 	const API_BASE_URL = process.env.REACT_APP_API_URL;
 
@@ -21,7 +29,12 @@ function FilmsPage() {
 				setError(null);
 
 				const response = await axios.get(`${API_BASE_URL}/films`, {
-					params: { page: currentPage, limit: FILMS_PER_PAGE },
+					params: {
+						page: currentPage,
+						limit: FILMS_PER_PAGE,
+						sort_by: sortBy,
+						sort_order: sortOrder,
+					},
 				});
 
 				setFilms(response.data.films);
@@ -39,7 +52,7 @@ function FilmsPage() {
 		};
 
 		fetchFilms();
-	}, [API_BASE_URL, currentPage]);
+	}, [API_BASE_URL, currentPage, sortBy, sortOrder]);
 
 	const toggleExpand = (filmId) => {
 		setExpandedFilmIds((prev) => {
@@ -74,12 +87,70 @@ function FilmsPage() {
 		}
 	};
 
+	// Pending controls update handlers
+	const handlePendingSortByChange = (e) => {
+		setPendingSortBy(e.target.value);
+	};
+
+	const handlePendingSortOrderChange = (e) => {
+		setPendingSortOrder(e.target.value);
+	};
+
+	// Apply button handler — sets the real sort and resets page
+	const applySort = () => {
+		setSortBy(pendingSortBy);
+		setSortOrder(pendingSortOrder);
+		setCurrentPage(1);
+	};
+
 	if (loading) return <p className="loading">Loading films...</p>;
 	if (error) return <p className="error">{error}</p>;
 
 	return (
 		<div className="films-page">
 			<h1>Films</h1>
+
+			{/* Sorting controls */}
+			<div
+				className="sorting-controls"
+				style={{ marginBottom: "1rem", textAlign: "center" }}
+			>
+				<label>
+					Sort by:{" "}
+					<select
+						value={pendingSortBy}
+						onChange={handlePendingSortByChange}
+					>
+						<option value="film_title">Title</option>
+						<option value="avg_rating">Average Rating</option>
+						<option value="num_ratings">Number of Ratings</option>
+						<option value="num_watches">Number of Watches</option>
+						<option value="num_likes">Number of Likes</option>
+						<option value="like_ratio">Like Ratio</option>
+					</select>
+				</label>{" "}
+				<label>
+					Order:{" "}
+					<select
+						value={pendingSortOrder}
+						onChange={handlePendingSortOrderChange}
+					>
+						<option value="asc">Ascending</option>
+						<option value="desc">Descending</option>
+					</select>
+				</label>{" "}
+				<button
+					onClick={applySort}
+					style={{
+						marginLeft: "1rem",
+						padding: "0.3rem 0.8rem",
+						cursor: "pointer",
+					}}
+				>
+					Apply
+				</button>
+			</div>
+
 			<ul className="films-list">
 				{films.map((film) => {
 					const isExpanded = expandedFilmIds.has(film.film_id);

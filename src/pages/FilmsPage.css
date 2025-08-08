@@ -14,6 +14,71 @@
 	margin-bottom: 1.5rem;
 }
 
+/* Sorting controls container */
+.sorting-controls {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	margin-bottom: 1.5rem;
+	font-size: 1rem;
+	color: #ccc;
+	user-select: none;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.sorting-controls label {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	font-weight: 600;
+	color: #ddd;
+}
+
+.sorting-controls select {
+	background-color: #222;
+	color: #fff;
+	border: 1px solid #444;
+	border-radius: 4px;
+	padding: 0.3rem 0.6rem;
+	font-size: 1rem;
+	outline: none;
+	transition: border-color 0.3s ease, background-color 0.3s ease;
+	cursor: pointer;
+}
+
+.sorting-controls select:hover,
+.sorting-controls select:focus {
+	border-color: #dd7711;
+	background-color: #2b2b2b;
+}
+
+/* Apply Sort button */
+.sorting-controls button {
+	background-color: #dd7711;
+	color: #111;
+	border: none;
+	border-radius: 5px;
+	padding: 0.4rem 1rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	box-shadow: 0 2px 6px rgba(221, 119, 17, 0.5);
+}
+
+.sorting-controls button:hover {
+	background-color: #bb660f;
+	box-shadow: 0 4px 10px rgba(187, 102, 15, 0.7);
+}
+
+/* Responsive: stack controls on small screens */
+@media (max-width: 480px) {
+	.sorting-controls {
+		flex-direction: column;
+		gap: 0.8rem;
+	}
+}
+
 /* Films list */
 .films-list {
 	list-style: none;
