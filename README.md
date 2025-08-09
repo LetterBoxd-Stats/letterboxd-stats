@@ -1,31 +1,72 @@
-# Create React App
+# Letterboxd Stats React App
 
-This directory is a brief example of a [Create React App](https://github.com/facebook/create-react-app) site that can be deployed to Vercel with zero configuration.
+This is a React App containing an interface to browse scraped [Letterboxd](https://letterboxd.com) user review data. It supports sorting both film and user data along with viewing fun statistical superlatives. All stats are pulled using a custom-built [Letterboxd API](https://github.com/samuelmgaines/letterboxd-api).
 
-## Deploy Your Own
+Deployed on [Vercel](https://vercel.com), and configurable via environment variables.
 
-Deploy your own Create React App project with Vercel.
+---
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/examples/tree/main/framework-boilerplates/create-react-app&template=create-react-app)
+## Environment Variables
 
-_Live Example: https://create-react-template.vercel.app/_
+These variables are loaded via dotenv for local development and should also be added to your Vercel project settings for production.
 
-## Available Scripts
+| Secret Name         | Description             |
+| ------------------- | ----------------------- |
+| `REACT_APP_API_URL` | Letterboxd API base URL |
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Local Development
 
-Runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Clone the repo
 
-The page will reload when you make changes. You may also see any lint errors in the console.
+2. Install dependencies:
 
-### `npm test`
+```bash
+npm install
+```
 
-Launches the test runner in the interactive watch mode. See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4. Start the react app:
 
-### `npm run build`
+```bash
+npm run start
+```
 
-Builds the app for production to the `build` folder.
+---
 
-It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes.
+## Project Structure
+
+```bash
+node_modules/          # (Not in repository)
+├── *                  # Dependencies
+public/
+├── index.html
+src/
+├── api/
+    ├── api.js
+├── components/
+    ├── ComingSoon.css
+    ├── ComingSoon.js
+    ├── Navbar.css
+    ├── Navbar.js
+├── pages/
+    ├── FilmsPage.css
+    ├── FilmsPage.js
+    ├── HomePage.css
+    ├── HomePage.js
+    ├── RecommenderPage.css
+    ├── RecommenderPage.js
+    ├── SuperlativesPage.css
+    ├── SuperlativesPage.js
+    ├── UsersPage.css
+    ├── UsersPage.js
+├── App.css
+├── App.js
+├── index.css
+├── index.js
+.env                   # Local environment variables (not in repository)
+.gitignore
+package-lock.json
+package.json
+README.md
+```

@@ -11,11 +11,13 @@ function FilmsPage() {
 	const [error, setError] = useState(null);
 	const [expandedFilmIds, setExpandedFilmIds] = useState(new Set());
 
-	// Current applied sorting
+	// Filters
+	const [pendingFilters, setPendingFilters] = useState([]);
+	const [activeFilters, setActiveFilters] = useState([]);
+
+	// Sorting (pending vs applied)
 	const [sortBy, setSortBy] = useState("film_title");
 	const [sortOrder, setSortOrder] = useState("asc");
-
-	// Pending sort controls (updated on select changes)
 	const [pendingSortBy, setPendingSortBy] = useState(sortBy);
 	const [pendingSortOrder, setPendingSortOrder] = useState(sortOrder);
 
@@ -25,34 +27,37 @@ function FilmsPage() {
 	useEffect(() => {
 		const fetchFilms = async () => {
 			try {
-				setLoading(true);
-				setError(null);
+				const params = {
+					page: currentPage,
+					limit: FILMS_PER_PAGE,
+					sort_by: sortBy,
+					sort_order: sortOrder,
+				};
 
-				const response = await axios.get(`${API_BASE_URL}/films`, {
-					params: {
-						page: currentPage,
-						limit: FILMS_PER_PAGE,
-						sort_by: sortBy,
-						sort_order: sortOrder,
-					},
+				activeFilters.forEach((filter) => {
+					if (filter.value !== "") {
+						if (filter.field === "like_ratio") {
+							params[`${filter.field}_${filter.operator}`] = parseFloat(filter.value) / 100;
+						} else {
+							params[`${filter.field}_${filter.operator}`] = filter.value;
+						}
+					}
 				});
+
+				const response = await axios.get(`${API_BASE_URL}/films`, { params });
 
 				setFilms(response.data.films);
 				setTotalPages(response.data.total_pages);
 				setPageInput(String(currentPage));
 			} catch (err) {
-				setError(
-					`Failed to fetch films: ${
-						err.response ? err.response.data.message : err.message
-					}`
-				);
+				setError(`Failed to fetch films: ${err.response ? err.response.data.message : err.message}`);
 			} finally {
 				setLoading(false);
 			}
 		};
 
 		fetchFilms();
-	}, [API_BASE_URL, currentPage, sortBy, sortOrder]);
+	}, [API_BASE_URL, currentPage, sortBy, sortOrder, activeFilters]);
 
 	const toggleExpand = (filmId) => {
 		setExpandedFilmIds((prev) => {
@@ -96,10 +101,26 @@ function FilmsPage() {
 		setPendingSortOrder(e.target.value);
 	};
 
-	// Apply button handler — sets the real sort and resets page
-	const applySort = () => {
+	const handleFilterChange = (index, key, value) => {
+		setPendingFilters((prev) => {
+			const updated = [...prev];
+			updated[index] = { ...updated[index], [key]: value };
+			return updated;
+		});
+	};
+
+	const addFilterRow = () => {
+		setPendingFilters((prev) => [...prev, { field: "avg_rating", operator: "gte", value: "" }]);
+	};
+
+	const removeFilterRow = (index) => {
+		setPendingFilters((prev) => prev.filter((_, i) => i !== index));
+	};
+
+	const applySortAndFilters = () => {
 		setSortBy(pendingSortBy);
 		setSortOrder(pendingSortOrder);
+		setActiveFilters(pendingFilters);
 		setCurrentPage(1);
 	};
 
@@ -111,16 +132,10 @@ function FilmsPage() {
 			<h1>Films</h1>
 
 			{/* Sorting controls */}
-			<div
-				className="sorting-controls"
-				style={{ marginBottom: "1rem", textAlign: "center" }}
-			>
+			<div className="sorting-controls">
 				<label>
-					Sort by:{" "}
-					<select
-						value={pendingSortBy}
-						onChange={handlePendingSortByChange}
-					>
+					Sort by:
+					<select value={pendingSortBy} onChange={handlePendingSortByChange}>
 						<option value="film_title">Title</option>
 						<option value="avg_rating">Average Rating</option>
 						<option value="num_ratings">Number of Ratings</option>
@@ -128,25 +143,55 @@ function FilmsPage() {
 						<option value="num_likes">Number of Likes</option>
 						<option value="like_ratio">Like Ratio</option>
 					</select>
-				</label>{" "}
+				</label>
 				<label>
-					Order:{" "}
-					<select
-						value={pendingSortOrder}
-						onChange={handlePendingSortOrderChange}
-					>
+					Order:
+					<select value={pendingSortOrder} onChange={handlePendingSortOrderChange}>
 						<option value="asc">Ascending</option>
 						<option value="desc">Descending</option>
 					</select>
-				</label>{" "}
-				<button
-					onClick={applySort}
-					style={{
-						marginLeft: "1rem",
-						padding: "0.3rem 0.8rem",
-						cursor: "pointer",
-					}}
-				>
+				</label>
+
+				{/* Filters */}
+				<div className="filter-controls">
+					<h3>Filters</h3>
+					{pendingFilters.map((filter, index) => (
+						<div key={index} className="filter-row">
+							<select
+								value={filter.field}
+								onChange={(e) => handleFilterChange(index, "field", e.target.value)}
+							>
+								<option value="avg_rating">Average Rating</option>
+								<option value="num_ratings">Number of Ratings</option>
+								<option value="num_watches">Number of Watches</option>
+								<option value="num_likes">Number of Likes</option>
+								<option value="like_ratio">Like Ratio</option>
+							</select>
+							<select
+								value={filter.operator}
+								onChange={(e) => handleFilterChange(index, "operator", e.target.value)}
+							>
+								<option value="gte">≥</option>
+								<option value="lte">≤</option>
+							</select>
+							<input
+								type="number"
+								value={filter.value}
+								onChange={(e) => handleFilterChange(index, "value", e.target.value)}
+								placeholder="Value"
+								className="filter-value-input"
+							/>
+							<button type="button" className="filter-remove-btn" onClick={() => removeFilterRow(index)}>
+								✖
+							</button>
+						</div>
+					))}
+					<button type="button" className="filter-add-btn" onClick={addFilterRow}>
+						+ Add Filter
+					</button>
+				</div>
+
+				<button type="button" className="apply-btn" onClick={applySortAndFilters}>
 					Apply
 				</button>
 			</div>
@@ -157,63 +202,24 @@ function FilmsPage() {
 					return (
 						<li key={film.film_id} className="film-item">
 							<div
-								className={`film-header clickable ${
-									isExpanded ? "expanded" : ""
-								}`}
+								className={`film-header clickable ${isExpanded ? "expanded" : ""}`}
 								onClick={() => toggleExpand(film.film_id)}
 							>
-								<span className="film-title">
-									{film.film_title}
-								</span>
+								<span className="film-title">{film.film_title}</span>
 								<div className="film-stats-summary">
-									<span>
-										⭐{" "}
-										{film.avg_rating != null
-											? film.avg_rating.toFixed(2)
-											: "N/A"}
-									</span>
-									<span>
-										(
-										{film.num_ratings != null
-											? film.num_ratings
-											: 0}{" "}
-										ratings)
-									</span>
-									<span
-										className={`expand-arrow ${
-											isExpanded ? "expanded" : ""
-										}`}
-									>
-										▼
-									</span>
+									<span>⭐ {film.avg_rating != null ? film.avg_rating.toFixed(2) : "N/A"}</span>
+									<span>({film.num_ratings != null ? film.num_ratings : 0} ratings)</span>
+									<span className={`expand-arrow ${isExpanded ? "expanded" : ""}`}>▼</span>
 								</div>
 							</div>
 
-							<div
-								className={`film-details ${
-									isExpanded ? "expanded" : ""
-								}`}
-							>
-								<p>
-									👍 Likes:{" "}
-									{film.num_likes != null
-										? film.num_likes
-										: 0}
-								</p>
+							<div className={`film-details ${isExpanded ? "expanded" : ""}`}>
+								<p>👍 Likes: {film.num_likes != null ? film.num_likes : 0}</p>
 								<p>
 									🎯 Like Ratio:{" "}
-									{film.like_ratio != null
-										? `${(film.like_ratio * 100).toFixed(
-												1
-										  )}%`
-										: "N/A"}
+									{film.like_ratio != null ? `${(film.like_ratio * 100).toFixed(1)}%` : "N/A"}
 								</p>
-								<p>
-									👀 Watches:{" "}
-									{film.num_watches != null
-										? film.num_watches
-										: 0}
-								</p>
+								<p>👀 Watches: {film.num_watches != null ? film.num_watches : 0}</p>
 								<p>
 									🔗{" "}
 									<a
@@ -249,10 +255,7 @@ function FilmsPage() {
 					/>{" "}
 					of {totalPages}
 				</span>
-				<button
-					onClick={nextPage}
-					disabled={currentPage === totalPages}
-				>
+				<button onClick={nextPage} disabled={currentPage === totalPages}>
 					Next
 				</button>
 			</div>
