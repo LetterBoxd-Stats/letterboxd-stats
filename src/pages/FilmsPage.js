@@ -7,6 +7,7 @@ function FilmsPage() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [pageInput, setPageInput] = useState("1");
 	const [totalPages, setTotalPages] = useState(1);
+	const [totalFilms, setTotalFilms] = useState(0);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const [expandedFilmIds, setExpandedFilmIds] = useState(new Set());
@@ -21,7 +22,7 @@ function FilmsPage() {
 	const [pendingSortBy, setPendingSortBy] = useState(sortBy);
 	const [pendingSortOrder, setPendingSortOrder] = useState(sortOrder);
 
-	const FILMS_PER_PAGE = 20;
+	const FILMS_PER_PAGE = process.env.REACT_APP_FILMS_PER_PAGE || 20;
 	const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 	useEffect(() => {
@@ -48,6 +49,7 @@ function FilmsPage() {
 
 				setFilms(response.data.films);
 				setTotalPages(response.data.total_pages);
+				setTotalFilms(response.data.total_films);
 				setPageInput(String(currentPage));
 			} catch (err) {
 				setError(`Failed to fetch films: ${err.response ? err.response.data.message : err.message}`);
@@ -127,6 +129,9 @@ function FilmsPage() {
 	if (loading) return <p className="loading">Loading films...</p>;
 	if (error) return <p className="error">{error}</p>;
 
+	const startIndex = (currentPage - 1) * FILMS_PER_PAGE + 1;
+	const endIndex = Math.min(currentPage * FILMS_PER_PAGE, totalFilms);
+
 	return (
 		<div className="films-page">
 			<h1>Films</h1>
@@ -194,6 +199,14 @@ function FilmsPage() {
 				<button type="button" className="apply-btn" onClick={applySortAndFilters}>
 					Apply
 				</button>
+			</div>
+
+			<div className="pagination-info">
+				{totalFilms > 0 && (
+					<p>
+						Showing {startIndex} - {endIndex} of {totalFilms} results
+					</p>
+				)}
 			</div>
 
 			<ul className="films-list">

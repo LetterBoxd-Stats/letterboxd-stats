@@ -187,6 +187,15 @@
 	box-shadow: 0 4px 10px rgba(187, 102, 15, 0.7);
 }
 
+.pagination-info {
+	max-width: 700px; /* Same max width as .films-list */
+	margin: 0 auto 1rem auto; /* Center container horizontally */
+	color: #ccc;
+	font-size: 0.95rem;
+	text-align: left; /* Align text left within container */
+	font-style: italic;
+}
+
 /* Films list - changed to flexbox for nicer layout and responsiveness */
 .films-list {
 	list-style: none;
