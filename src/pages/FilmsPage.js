@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./FilmsPage.css";
+import { getLetterboxdStars } from "../utils/helpers";
 
 function FilmsPage() {
 	const [films, setFilms] = useState([]);
@@ -227,7 +228,7 @@ function FilmsPage() {
 							</div>
 
 							<div className={`film-details ${isExpanded ? "expanded" : ""}`}>
-								<p>👍 Likes: {film.num_likes != null ? film.num_likes : 0}</p>
+								<p>❤️ Likes: {film.num_likes != null ? film.num_likes : 0}</p>
 								<p>
 									🎯 Like Ratio:{" "}
 									{film.like_ratio != null ? `${(film.like_ratio * 100).toFixed(1)}%` : "N/A"}
@@ -247,6 +248,26 @@ function FilmsPage() {
 										View on Letterboxd
 									</a>
 								</p>
+								<div className={`user-info ${isExpanded ? "expanded" : ""}`}>
+									<h4>Viewers</h4>
+									{film.reviews.map((review) => (
+										<div key={review.user + "-" + film.film_id} className="review">
+											<p className="user-review">
+												{review.user}:{" "}
+												<span className="star-rating">{getLetterboxdStars(review.rating)}</span>
+												{review.is_liked && " ❤️"}
+											</p>
+										</div>
+									))}
+									{film.watches.map((watch) => (
+										<div key={watch.user + "-" + film.film_id} className="review">
+											<p className="user-review">
+												{watch.user}: N/A
+												{watch.is_liked && " ❤️"}
+											</p>
+										</div>
+									))}
+								</div>
 							</div>
 						</li>
 					);
