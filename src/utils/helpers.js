@@ -1,4 +1,4 @@
-export const getLetterboxdStars = (rating) => {
+export const getStarsFromRating = (rating) => {
 	if (rating == null) return "N/A";
 	let stars = "";
 	while (rating >= 1) {

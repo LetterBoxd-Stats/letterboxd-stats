@@ -10,9 +10,11 @@ Deployed on [Vercel](https://vercel.com), and configurable via environment varia
 
 These variables are loaded via dotenv for local development and should also be added to your Vercel project settings for production.
 
-| Secret Name         | Description             |
-| ------------------- | ----------------------- |
-| `REACT_APP_API_URL` | Letterboxd API base URL |
+| Secret Name                      | Description                                     |
+| -------------------------------- | ----------------------------------------------- |
+| `REACT_APP_API_URL`              | Letterboxd API base URL                         |
+| `REACT_APP_FILMS_PER_PAGE`       | Number of films per page (optional, default 20) |
+| `REACT_APP_LETTERBOXD_USERNAMES` | Comma-separated list of Letterboxd usernames    |
 
 ---
 
@@ -26,7 +28,7 @@ These variables are loaded via dotenv for local development and should also be a
 npm install
 ```
 
-4. Start the react app:
+4. Start the React app:
 
 ```bash
 npm run start

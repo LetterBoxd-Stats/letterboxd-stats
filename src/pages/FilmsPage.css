@@ -288,17 +288,13 @@
 }
 
 .film-details.expanded {
-	max-height: 300px; /* Fits most content */
+	max-height: 600px; /* Fits most content */
 	opacity: 1;
 	border-top: 1px solid #333;
 	padding: 0.6rem 1rem;
 }
 
 .star-rating {
-	font-size: 1.25em; /* bigger than surrounding text */
-	vertical-align: middle;
-	position: relative;
-	bottom: 0.05em;
 	color: #e1bc2d;
 	line-height: 1;
 }

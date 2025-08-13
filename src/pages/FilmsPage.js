@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./FilmsPage.css";
-import { getLetterboxdStars } from "../utils/helpers";
+import { getStarsFromRating } from "../utils/helpers";
 
 function FilmsPage() {
 	const [films, setFilms] = useState([]);
@@ -25,6 +25,9 @@ function FilmsPage() {
 
 	const FILMS_PER_PAGE = process.env.REACT_APP_FILMS_PER_PAGE || 20;
 	const API_BASE_URL = process.env.REACT_APP_API_URL;
+	const LETTERBOXD_USERNAMES = process.env.REACT_APP_LETTERBOXD_USERNAMES
+		? process.env.REACT_APP_LETTERBOXD_USERNAMES.split(",").map((u) => u.trim())
+		: [];
 
 	useEffect(() => {
 		const fetchFilms = async () => {
@@ -38,10 +41,33 @@ function FilmsPage() {
 
 				activeFilters.forEach((filter) => {
 					if (filter.value !== "") {
-						if (filter.field === "like_ratio") {
-							params[`${filter.field}_${filter.operator}`] = parseFloat(filter.value) / 100;
-						} else {
-							params[`${filter.field}_${filter.operator}`] = filter.value;
+						// Filter watched by
+						if (filter.field === "watched_by") {
+							if (params["watched_by"]) {
+								params["watched_by"] += `,${filter.value}`;
+							} else {
+								params["watched_by"] = filter.value;
+							}
+						}
+						// Filter other fields
+						else {
+							let param_name = `${filter.field}_${filter.operator}`;
+							// If the same filter is applied multiple times, take the more restrictive value
+							if (params[param_name]) {
+								if (filter.operator === "gte") {
+									params[param_name] = Math.max(params[param_name], filter.value);
+								} else if (filter.operator === "lte") {
+									params[param_name] = Math.min(params[param_name], filter.value);
+								}
+							}
+							// Otherwise, set the filter value
+							else {
+								if (filter.field === "like_ratio") {
+									params[param_name] = parseFloat(filter.value) / 100;
+								} else {
+									params[param_name] = filter.value;
+								}
+							}
 						}
 					}
 				});
@@ -172,21 +198,39 @@ function FilmsPage() {
 								<option value="num_watches">Number of Watches</option>
 								<option value="num_likes">Number of Likes</option>
 								<option value="like_ratio">Like Ratio</option>
+								<option value="watched_by">Watched By</option>
 							</select>
-							<select
-								value={filter.operator}
-								onChange={(e) => handleFilterChange(index, "operator", e.target.value)}
-							>
-								<option value="gte">≥</option>
-								<option value="lte">≤</option>
-							</select>
-							<input
-								type="number"
-								value={filter.value}
-								onChange={(e) => handleFilterChange(index, "value", e.target.value)}
-								placeholder="Value"
-								className="filter-value-input"
-							/>
+							{filter.field !== "watched_by" && (
+								<select
+									value={filter.operator}
+									onChange={(e) => handleFilterChange(index, "operator", e.target.value)}
+								>
+									<option value="gte">≥</option>
+									<option value="lte">≤</option>
+								</select>
+							)}
+							{filter.field === "watched_by" ? (
+								<select
+									value={filter.value}
+									onChange={(e) => handleFilterChange(index, "value", e.target.value)}
+								>
+									<option value="">Select user</option>
+									{LETTERBOXD_USERNAMES.map((username) => (
+										<option key={username} value={username}>
+											{username}
+										</option>
+									))}
+								</select>
+							) : (
+								<input
+									type="number"
+									value={filter.value}
+									onChange={(e) => handleFilterChange(index, "value", e.target.value)}
+									placeholder="Value"
+									className="filter-value-input"
+								/>
+							)}
+
 							<button type="button" className="filter-remove-btn" onClick={() => removeFilterRow(index)}>
 								✖
 							</button>
@@ -254,7 +298,7 @@ function FilmsPage() {
 										<div key={review.user + "-" + film.film_id} className="review">
 											<p className="user-review">
 												{review.user}:{" "}
-												<span className="star-rating">{getLetterboxdStars(review.rating)}</span>
+												<span className="star-rating">{getStarsFromRating(review.rating)}</span>
 												{review.is_liked && " ❤️"}
 											</p>
 										</div>
@@ -262,7 +306,7 @@ function FilmsPage() {
 									{film.watches.map((watch) => (
 										<div key={watch.user + "-" + film.film_id} className="review">
 											<p className="user-review">
-												{watch.user}: N/A
+												{watch.user}: <span className="star-rating">N/A</span>
 												{watch.is_liked && " ❤️"}
 											</p>
 										</div>
