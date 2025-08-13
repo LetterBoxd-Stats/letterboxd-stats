@@ -6,7 +6,7 @@ export const getLetterboxdStars = (rating) => {
 		rating -= 1;
 	}
 	if (rating > 0) {
-		stars += "⯪";
+		stars += "½";
 	}
-	return stars + "☆".repeat(5 - stars.length);
+	return stars;
 };
