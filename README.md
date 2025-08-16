@@ -45,12 +45,18 @@ public/
 ├── index.html
 src/
 ├── api/
-    ├── api.js
 ├── components/
     ├── ComingSoon.css
     ├── ComingSoon.js
     ├── Navbar.css
     ├── Navbar.js
+    ├── films/
+        ├── FilmFilterControls.css
+        ├── FilmFilterControls.js
+        ├── FilmList.css
+        ├── FilmList.js
+        ├── FilmSortingControls.css
+        ├── FilmSortingControls.js
 ├── pages/
     ├── FilmsPage.css
     ├── FilmsPage.js
@@ -62,6 +68,8 @@ src/
     ├── SuperlativesPage.js
     ├── UsersPage.css
     ├── UsersPage.js
+├── utils/
+    ├── helpers.js
 ├── App.css
 ├── App.js
 ├── index.css

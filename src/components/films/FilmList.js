@@ -1,93 +1,114 @@
-import React, { useState } from "react";
+// components/FilmList.js
+import React, { useRef, useState } from "react";
 import { getStarsFromRating } from "../../utils/helpers";
 import "./FilmList.css";
 
 export default function FilmList({ films }) {
-	const [expandedFilmIds, setExpandedFilmIds] = useState(new Set());
+	const [expanded, setExpanded] = useState(new Set());
+	const detailsRefs = useRef({}); // { [filmId]: HTMLDivElement }
 
-	const toggleExpand = (filmId) => {
-		setExpandedFilmIds((prev) => {
-			const newSet = new Set(prev);
-			if (newSet.has(filmId)) {
-				newSet.delete(filmId);
-			} else {
-				newSet.add(filmId);
-			}
-			return newSet;
+	const toggle = (id) => {
+		setExpanded((prev) => {
+			const next = new Set(prev);
+			next.has(id) ? next.delete(id) : next.add(id);
+			return next;
 		});
 	};
 
-	if (!films || films.length === 0) {
-		return <p>No films found.</p>;
-	}
+	if (!films?.length) return <p>No films found.</p>;
 
 	return (
 		<ul className="films-list">
 			{films.map((film) => {
-				const isExpanded = expandedFilmIds.has(film.film_id);
+				const id = film.film_id;
+				const isOpen = expanded.has(id);
 
 				return (
-					<li key={film.film_id} className="film-item">
-						{/* Header row */}
-						<div
-							className={`film-header clickable ${isExpanded ? "expanded" : ""}`}
-							onClick={() => toggleExpand(film.film_id)}
-						>
+					<li key={id} className="film-item">
+						<div className={`film-header clickable ${isOpen ? "expanded" : ""}`} onClick={() => toggle(id)}>
 							<span className="film-title">{film.film_title}</span>
 							<div className="film-stats-summary">
 								<span>⭐ {film.avg_rating != null ? film.avg_rating.toFixed(2) : "N/A"}</span>
-								<span>({film.num_ratings != null ? film.num_ratings : 0} ratings)</span>
-								<span className={`expand-arrow ${isExpanded ? "expanded" : ""}`}>▼</span>
+								<span>({film.num_ratings ?? 0} ratings)</span>
+								<span className={`expand-arrow ${isOpen ? "expanded" : ""}`}>▼</span>
 							</div>
 						</div>
 
-						{/* Expanded details */}
-						{isExpanded && (
-							<div className={`film-details ${isExpanded ? "expanded" : ""}`}>
-								<p>❤️ Likes: {film.num_likes ?? 0}</p>
-								<p>
-									🎯 Like Ratio:{" "}
-									{film.like_ratio != null ? `${(film.like_ratio * 100).toFixed(1)}%` : "N/A"}
-								</p>
-								<p>👀 Watches: {film.num_watches ?? 0}</p>
-								<p>
-									🔗{" "}
-									<a
-										href={
-											film.film_link.startsWith("http")
-												? film.film_link
-												: `https://${film.film_link}`
+						{/* Always render the details node, animate via inline styles */}
+						<div
+							data-film-details
+							ref={(el) => (detailsRefs.current[id] = el)}
+							style={{
+								// animate from 0 -> scrollHeight smoothly, no 'auto' involved
+								maxHeight: isOpen ? `${detailsRefs.current[id]?.scrollHeight ?? 0}px` : "0px",
+								opacity: isOpen ? 1 : 0,
+								overflow: "hidden",
+								transition: "max-height 300ms ease, opacity 300ms ease",
+								// keep your padding visual change:
+								padding: "0 1rem",
+								borderTop: isOpen ? "1px solid #333" : "1px solid transparent",
+							}}
+						>
+							<p>❤️ Likes: {film.num_likes ?? 0}</p>
+							<p>
+								🎯 Like Ratio:{" "}
+								{film.like_ratio != null ? `${(film.like_ratio * 100).toFixed(1)}%` : "N/A"}
+							</p>
+							<p>👀 Watches: {film.num_watches ?? 0}</p>
+							<p>
+								🔗{" "}
+								<a
+									href={
+										film.film_link.startsWith("http") ? film.film_link : `https://${film.film_link}`
+									}
+									target="_blank"
+									rel="noopener noreferrer"
+									style={{
+										color: "#dd7711",
+										textDecoration: "none",
+									}}
+									onMouseOver={() => {
+										// Change text decoration on hover
+										const link = document.querySelector(`a[href="${film.film_link}"]`);
+										if (link) {
+											link.style.textDecoration = "underline";
 										}
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										View on Letterboxd
-									</a>
-								</p>
+									}}
+									onMouseOut={() => {
+										// Revert text decoration when not hovering
+										const link = document.querySelector(`a[href="${film.film_link}"]`);
+										if (link) {
+											link.style.textDecoration = "none";
+										}
+									}}
+								>
+									View on Letterboxd
+								</a>
+							</p>
 
-								{/* User info */}
-								<div className="user-info">
-									<h4>Viewers</h4>
-									{(film.reviews || []).map((review) => (
-										<div key={review.user + "-" + film.film_id} className="review">
-											<p className="user-review">
-												{review.user}:{" "}
-												<span className="star-rating">{getStarsFromRating(review.rating)}</span>
-												{review.is_liked && " ❤️"}
-											</p>
-										</div>
-									))}
-									{(film.watches || []).map((watch) => (
-										<div key={watch.user + "-" + film.film_id} className="review">
-											<p className="user-review">
-												{watch.user}: <span className="star-rating">N/A</span>
-												{watch.is_liked && " ❤️"}
-											</p>
-										</div>
-									))}
-								</div>
+							<div className="user-info">
+								<h4>Viewers</h4>
+
+								{(film.reviews ?? []).map((review) => (
+									<div key={`r-${review.user}-${id}`} className="review">
+										<p className="user-review">
+											{review.user}:{" "}
+											<span className="star-rating">{getStarsFromRating(review.rating)}</span>
+											{review.is_liked && " ❤️"}
+										</p>
+									</div>
+								))}
+
+								{(film.watches ?? []).map((watch) => (
+									<div key={`w-${watch.user}-${id}`} className="review">
+										<p className="user-review">
+											{watch.user}: <span className="star-rating">N/A</span>
+											{watch.is_liked && " ❤️"}
+										</p>
+									</div>
+								))}
 							</div>
-						)}
+						</div>
 					</li>
 				);
 			})}
