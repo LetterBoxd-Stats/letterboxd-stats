@@ -34,10 +34,12 @@ export default function FilmFilterControls({ filters, onChange }) {
 						<option value="num_likes">Number of Likes</option>
 						<option value="like_ratio">Like Ratio</option>
 						<option value="watched_by">Watched By</option>
+						<option value="not_watched_by">Not Watched By</option>
+						<option value="rated_by">Rated By</option>
+						<option value="not_rated_by">Not Rated By</option>
 					</select>
-
-					{/* Operator (only for numeric filters) */}
-					{filter.field !== "watched_by" && (
+					;{/* Operator (only for numeric filters) */}
+					{!["watched_by", "not_watched_by", "rated_by", "not_rated_by"].includes(filter.field) && (
 						<select
 							value={filter.operator}
 							onChange={(e) => handleFilterChange(index, "operator", e.target.value)}
@@ -46,9 +48,8 @@ export default function FilmFilterControls({ filters, onChange }) {
 							<option value="lte">≤</option>
 						</select>
 					)}
-
 					{/* Value input: number for numeric fields, dropdown for watched_by */}
-					{filter.field === "watched_by" ? (
+					{["watched_by", "not_watched_by", "rated_by", "not_rated_by"].includes(filter.field) ? (
 						<select
 							value={filter.value}
 							onChange={(e) => handleFilterChange(index, "value", e.target.value)}
@@ -69,7 +70,6 @@ export default function FilmFilterControls({ filters, onChange }) {
 							className="filter-value-input"
 						/>
 					)}
-
 					{/* Remove button */}
 					<button type="button" className="filter-remove-btn" onClick={() => removeFilterRow(index)}>
 						✖

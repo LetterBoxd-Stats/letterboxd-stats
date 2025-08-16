@@ -42,11 +42,11 @@ function FilmsPage() {
 				activeFilters.forEach((filter) => {
 					if (filter.value !== "") {
 						// Filter watched by
-						if (filter.field === "watched_by") {
-							if (params["watched_by"]) {
-								params["watched_by"] += `,${filter.value}`;
+						if (["watched_by", "not_watched_by", "rated_by", "not_rated_by"].includes(filter.field)) {
+							if (params[filter.field]) {
+								params[filter.field] += `,${filter.value}`;
 							} else {
-								params["watched_by"] = filter.value;
+								params[filter.field] = filter.value;
 							}
 						}
 						// Filter other fields
