@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import FilmsPage from "./pages/FilmsPage";
 import UsersPage from "./pages/UsersPage";
+import UserDetailPage from "./pages/UserDetailPage";
 import SuperlativesPage from "./pages/SuperlativesPage";
 import RecommenderPage from "./pages/RecommenderPage";
 
@@ -14,6 +15,7 @@ function App() {
 				<Route path="/" element={<HomePage />} />
 				<Route path="/films" element={<FilmsPage />} />
 				<Route path="/users" element={<UsersPage />} />
+				<Route path="/users/:username" element={<UserDetailPage />} />
 				<Route path="/superlatives" element={<SuperlativesPage />} />
 				<Route path="/recommender" element={<RecommenderPage />} />
 			</Routes>

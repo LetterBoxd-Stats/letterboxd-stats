@@ -66,6 +66,8 @@ src/
     ├── RecommenderPage.js
     ├── SuperlativesPage.css
     ├── SuperlativesPage.js
+    ├── UserDetailPage.css
+    ├── UserDetailPage.js
     ├── UsersPage.css
     ├── UsersPage.js
 ├── utils/
