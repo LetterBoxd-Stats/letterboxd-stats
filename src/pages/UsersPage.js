@@ -70,11 +70,6 @@ function UsersPage() {
 	return (
 		<div className="users-page">
 			<h1>Users</h1>
-			<div className="users-grid">
-				{users.map((user) => (
-					<UserCard key={user.username} user={user} />
-				))}
-			</div>
 			<div className="users-overall-stats">
 				<h2>Overall Stats</h2>
 				<ul>
@@ -122,6 +117,11 @@ function UsersPage() {
 						))}
 					</BarChart>
 				</ResponsiveContainer>
+			</div>
+			<div className="users-grid">
+				{users.map((user) => (
+					<UserCard key={user.username} user={user} />
+				))}
 			</div>
 		</div>
 	);
