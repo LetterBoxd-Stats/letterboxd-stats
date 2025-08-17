@@ -43,12 +43,11 @@ function UsersPage() {
 					<div key={user.username} className="user-card">
 						<h2>{user.username}</h2>
 						<div className="user-stats">
-							<p>
-								Films Watched:{" "}
-								{Object.keys(user.watches || {}).length + Object.keys(user.reviews || {}).length}
-							</p>
-							<p>Reviews Written: {Object.keys(user.reviews || {}).length}</p>
-							<p>Last Update: {user.last_update_time}</p>
+							<p>Average Rating: {user.stats.avg_rating}</p>
+							<p>Ratings Given: {user.stats.num_ratings}</p>
+							<p>Number of Likes: {user.stats.num_likes}</p>
+							<p>Like Ratio: {user.stats.like_ratio}</p>
+							<p>Films Watched: {user.stats.num_watches}</p>
 						</div>
 						<Link to={`/users/${user.username}`} className="details-link">
 							View Details →
