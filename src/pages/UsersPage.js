@@ -60,7 +60,7 @@ function UsersPage() {
 	);
 
 	const overall = {
-		avg_rating: totals.num_ratings ? (totals.weighted_sum / totals.num_ratings).toFixed(2) : "0.00",
+		avg_rating: totals.num_ratings ? (totals.weighted_sum / totals.num_ratings).toFixed(3) : "0.000",
 		num_ratings: totals.num_ratings,
 		num_watches: totals.num_watches,
 		num_likes: totals.num_likes,

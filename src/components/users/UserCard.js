@@ -18,7 +18,7 @@ function UserCard({ user }) {
 				<p>Average Rating: {user.stats.avg_rating.toFixed(3)}</p>
 				<p>Ratings Given: {user.stats.num_ratings}</p>
 				<p>Number of Likes: {user.stats.num_likes}</p>
-				<p>Like Ratio: {user.stats.like_ratio.toFixed(3)}</p>
+				<p>Like Ratio: {(user.stats.like_ratio * 100).toFixed(1)}%</p>
 				<p>Films Watched: {user.stats.num_watches}</p>
 			</div>
 
