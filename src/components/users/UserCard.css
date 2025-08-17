@@ -1,0 +1,47 @@
+/* User card */
+.user-card {
+	background-color: #262626;
+	border-radius: 10px;
+	padding: 1.2rem;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-card:hover {
+	transform: translateY(-5px);
+	background: #2a2a2a;
+}
+
+/* Username */
+.user-card h2 {
+	color: #dd7711;
+	margin-bottom: 0.8rem;
+	font-size: 1.4rem;
+}
+
+/* Stats section */
+.user-stats p {
+	margin: 0.3rem 0;
+	color: #ccc;
+	font-size: 0.95rem;
+}
+
+.user-chart {
+	margin-top: 1rem;
+	width: 100%;
+	height: 175px;
+}
+
+/* Details link */
+.details-link {
+	display: inline-block;
+	margin-top: 0.8rem;
+	color: #dd7711;
+	text-decoration: none;
+	font-weight: 600;
+	transition: color 0.2s ease;
+}
+
+.details-link:hover {
+	text-decoration: underline;
+}

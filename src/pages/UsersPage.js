@@ -1,6 +1,7 @@
+// src/pages/UsersPage.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import UserCard from "../components/users/UserCard";
 import "./UsersPage.css";
 
 function UsersPage() {
@@ -40,19 +41,7 @@ function UsersPage() {
 			<h1>Users</h1>
 			<div className="users-grid">
 				{users.map((user) => (
-					<div key={user.username} className="user-card">
-						<h2>{user.username}</h2>
-						<div className="user-stats">
-							<p>Average Rating: {user.stats.avg_rating}</p>
-							<p>Ratings Given: {user.stats.num_ratings}</p>
-							<p>Number of Likes: {user.stats.num_likes}</p>
-							<p>Like Ratio: {user.stats.like_ratio}</p>
-							<p>Films Watched: {user.stats.num_watches}</p>
-						</div>
-						<Link to={`/users/${user.username}`} className="details-link">
-							View Details →
-						</Link>
-					</div>
+					<UserCard key={user.username} user={user} />
 				))}
 			</div>
 		</div>
