@@ -1,6 +1,6 @@
 # Letterboxd Stats React App
 
-This is a React App containing an interface to browse scraped [Letterboxd](https://letterboxd.com) user review data. It supports sorting both film and user data along with viewing fun statistical superlatives. All stats are pulled using a custom-built [Letterboxd API](https://github.com/samuelmgaines/letterboxd-api).
+This is a React App containing an interface to browse scraped [Letterboxd](https://letterboxd.com) user review data. It supports sorting both film and user data along with viewing fun statistical superlatives. All stats are pulled using a custom-built [Letterboxd API](https://github.com/LetterBoxd-Stats/letterboxd-api).
 
 Deployed on [Vercel](https://vercel.com), and configurable via environment variables.
 
