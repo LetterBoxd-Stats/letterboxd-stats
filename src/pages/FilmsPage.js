@@ -39,37 +39,74 @@ function FilmsPage() {
 					sort_order: sortOrder,
 				};
 
+				// Group filters by type to handle multiple values for the same field
+				const textSearchFilters = {};
+				const userFilters = {};
+				const numericFilters = {};
+
+				// Organize filters by type
 				activeFilters.forEach((filter) => {
 					if (filter.value !== "") {
-						// Filter watched by
+						// User-based filters (watched_by, rated_by, etc.)
 						if (["watched_by", "not_watched_by", "rated_by", "not_rated_by"].includes(filter.field)) {
-							if (params[filter.field]) {
-								params[filter.field] += `,${filter.value}`;
+							if (userFilters[filter.field]) {
+								userFilters[filter.field].push(filter.value);
 							} else {
-								params[filter.field] = filter.value;
+								userFilters[filter.field] = [filter.value];
 							}
 						}
-						// Filter other fields
-						else {
-							let param_name = `${filter.field}_${filter.operator}`;
-							// If the same filter is applied multiple times, take the more restrictive value
-							if (params[param_name]) {
-								if (filter.operator === "gte") {
-									params[param_name] = Math.max(params[param_name], filter.value);
-								} else if (filter.operator === "lte") {
-									params[param_name] = Math.min(params[param_name], filter.value);
-								}
+						// Text search filters (genres, directors, actors, etc.)
+						else if (
+							["genres", "directors", "actors", "studios", "themes", "description", "crew"].includes(
+								filter.field
+							)
+						) {
+							if (textSearchFilters[filter.field]) {
+								textSearchFilters[filter.field].push(filter.value);
+							} else {
+								textSearchFilters[filter.field] = [filter.value];
 							}
-							// Otherwise, set the filter value
-							else {
+						}
+						// Numeric filters with operators
+						else {
+							const paramName = `${filter.field}_${filter.operator}`;
+							if (numericFilters[paramName]) {
+								// For multiple numeric filters on same field, take the more restrictive value
+								if (filter.operator === "gte") {
+									numericFilters[paramName] = Math.max(
+										numericFilters[paramName],
+										parseFloat(filter.value)
+									);
+								} else if (filter.operator === "lte") {
+									numericFilters[paramName] = Math.min(
+										numericFilters[paramName],
+										parseFloat(filter.value)
+									);
+								}
+							} else {
 								if (filter.field === "like_ratio") {
-									params[param_name] = parseFloat(filter.value) / 100;
+									numericFilters[paramName] = parseFloat(filter.value) / 100;
 								} else {
-									params[param_name] = filter.value;
+									numericFilters[paramName] = parseFloat(filter.value);
 								}
 							}
 						}
 					}
+				});
+
+				// Apply user filters (comma-separated values)
+				Object.keys(userFilters).forEach((field) => {
+					params[field] = userFilters[field].join(",");
+				});
+
+				// Apply text search filters (comma-separated values)
+				Object.keys(textSearchFilters).forEach((field) => {
+					params[field] = textSearchFilters[field].join(",");
+				});
+
+				// Apply numeric filters
+				Object.keys(numericFilters).forEach((paramName) => {
+					params[paramName] = numericFilters[paramName];
 				});
 
 				const response = await axios.get(`${API_BASE_URL}/films`, { params, signal: controller.signal });
@@ -79,7 +116,7 @@ function FilmsPage() {
 				setTotalFilms(response.data.total_films);
 			} catch (err) {
 				if (err.name !== "CanceledError") {
-					setError(`Failed to fetch films: ...`);
+					setError(`Failed to fetch films: ${err.message}`);
 				}
 			} finally {
 				setLoading(false);
@@ -87,7 +124,7 @@ function FilmsPage() {
 		};
 
 		fetchFilms();
-	}, [API_BASE_URL, currentPage, sortBy, sortOrder, activeFilters]);
+	}, [API_BASE_URL, currentPage, sortBy, sortOrder, activeFilters, FILMS_PER_PAGE]);
 
 	const applySortAndFilters = () => {
 		setSortBy(pendingSortBy);

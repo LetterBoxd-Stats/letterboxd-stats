@@ -39,8 +39,15 @@
 	min-width: 80px;
 }
 
-.filter-row input.filter-value-input {
+/* Default width for numeric inputs */
+.filter-row input.filter-value-input[type="number"] {
 	width: 60px;
+}
+
+/* Wider width for text inputs */
+.filter-row input.filter-value-input[type="text"] {
+	width: 200px;
+	min-width: 150px;
 }
 
 .filter-row select:hover,

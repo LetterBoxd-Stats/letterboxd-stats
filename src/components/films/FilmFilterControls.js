@@ -21,6 +21,47 @@ export default function FilmFilterControls({ filters, onChange }) {
 		onChange(filters.filter((_, i) => i !== index));
 	};
 
+	// Check if field is numeric (uses operators)
+	const isNumericField = (field) => {
+		const numericFields = [
+			"avg_rating",
+			"num_ratings",
+			"num_watches",
+			"num_likes",
+			"like_ratio",
+			"metadata.avg_rating",
+			"metadata.year",
+			"metadata.runtime",
+		];
+		return numericFields.includes(field);
+	};
+
+	// Check if field is a user filter (uses dropdown)
+	const isUserField = (field) => {
+		const userFields = ["watched_by", "not_watched_by", "rated_by", "not_rated_by"];
+		return userFields.includes(field);
+	};
+
+	// Check if field is a text search field (free text input)
+	const isTextSearchField = (field) => {
+		const textSearchFields = ["directors", "actors", "studios", "themes", "description", "crew", "genres"];
+		return textSearchFields.includes(field);
+	};
+
+	// Get placeholder text for text search fields
+	const getTextSearchPlaceholder = (field) => {
+		const placeholders = {
+			directors: "e.g., Christopher Nolan, Quentin Tarantino",
+			actors: "e.g., Tom Hanks, Meryl Streep",
+			studios: "e.g., Warner Bros, A24",
+			themes: "e.g., Time Travel, Coming of Age",
+			description: "Search in descriptions...",
+			crew: "e.g., Cinematographer, Composer",
+			genres: "e.g., Horror, Comedy, Science Fiction",
+		};
+		return placeholders[field] || `Search ${field}...`;
+	};
+
 	return (
 		<div className="filter-controls">
 			<h3>Filters</h3>
@@ -28,18 +69,40 @@ export default function FilmFilterControls({ filters, onChange }) {
 				<div key={index} className="filter-row">
 					{/* Field selector */}
 					<select value={filter.field} onChange={(e) => handleFilterChange(index, "field", e.target.value)}>
-						<option value="avg_rating">Average Rating</option>
-						<option value="num_ratings">Number of Ratings</option>
-						<option value="num_watches">Number of Watches</option>
-						<option value="num_likes">Number of Likes</option>
-						<option value="like_ratio">Like Ratio</option>
-						<option value="watched_by">Watched By</option>
-						<option value="not_watched_by">Not Watched By</option>
-						<option value="rated_by">Rated By</option>
-						<option value="not_rated_by">Not Rated By</option>
+						{/* Numeric fields */}
+						<optgroup label="Numeric Fields">
+							<option value="avg_rating">Average Rating</option>
+							<option value="num_ratings">Number of Ratings</option>
+							<option value="num_watches">Number of Watches</option>
+							<option value="num_likes">Number of Likes</option>
+							<option value="like_ratio">Like Ratio</option>
+							<option value="metadata.avg_rating">Letterboxd Avg Rating</option>
+							<option value="metadata.year">Year</option>
+							<option value="metadata.runtime">Runtime (minutes)</option>
+						</optgroup>
+
+						{/* User-based filters */}
+						<optgroup label="User Activity">
+							<option value="watched_by">Watched By</option>
+							<option value="not_watched_by">Not Watched By</option>
+							<option value="rated_by">Rated By</option>
+							<option value="not_rated_by">Not Rated By</option>
+						</optgroup>
+
+						{/* Text search filters */}
+						<optgroup label="Text Search">
+							<option value="genres">Genre</option>
+							<option value="directors">Director</option>
+							<option value="actors">Actor</option>
+							<option value="studios">Studio</option>
+							<option value="themes">Theme</option>
+							<option value="description">Description</option>
+							<option value="crew">Crew</option>
+						</optgroup>
 					</select>
-					;{/* Operator (only for numeric filters) */}
-					{!["watched_by", "not_watched_by", "rated_by", "not_rated_by"].includes(filter.field) && (
+
+					{/* Operator (only for numeric filters) */}
+					{isNumericField(filter.field) && (
 						<select
 							value={filter.operator}
 							onChange={(e) => handleFilterChange(index, "operator", e.target.value)}
@@ -48,8 +111,10 @@ export default function FilmFilterControls({ filters, onChange }) {
 							<option value="lte">≤</option>
 						</select>
 					)}
-					{/* Value input: number for numeric fields, dropdown for watched_by */}
-					{["watched_by", "not_watched_by", "rated_by", "not_rated_by"].includes(filter.field) ? (
+
+					{/* Value input based on field type */}
+					{isUserField(filter.field) ? (
+						// User dropdown for user-based filters
 						<select
 							value={filter.value}
 							onChange={(e) => handleFilterChange(index, "value", e.target.value)}
@@ -61,15 +126,28 @@ export default function FilmFilterControls({ filters, onChange }) {
 								</option>
 							))}
 						</select>
-					) : (
+					) : isNumericField(filter.field) ? (
+						// Number input for numeric fields
 						<input
 							type="number"
 							value={filter.value}
 							onChange={(e) => handleFilterChange(index, "value", e.target.value)}
 							placeholder="Value"
 							className="filter-value-input"
+							step={filter.field.includes("rating") ? "0.1" : "1"}
+							min="0"
 						/>
-					)}
+					) : isTextSearchField(filter.field) ? (
+						// Text input for text search fields
+						<input
+							type="text"
+							value={filter.value}
+							onChange={(e) => handleFilterChange(index, "value", e.target.value)}
+							placeholder={getTextSearchPlaceholder(filter.field)}
+							className="filter-value-input"
+						/>
+					) : null}
+
 					{/* Remove button */}
 					<button type="button" className="filter-remove-btn" onClick={() => removeFilterRow(index)}>
 						✖

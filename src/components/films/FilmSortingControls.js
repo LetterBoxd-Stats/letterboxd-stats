@@ -13,6 +13,9 @@ export default function FilmSortingControls({ sortBy, sortOrder, onSortByChange,
 					<option value="num_watches">Number of Watches</option>
 					<option value="num_likes">Number of Likes</option>
 					<option value="like_ratio">Like Ratio</option>
+					<option value="metadata.avg_rating">Letterboxd Avg Rating</option>
+					<option value="metadata.year">Year</option>
+					<option value="metadata.runtime">Runtime</option>
 				</select>
 			</label>
 
