@@ -4,6 +4,8 @@ This is a React App containing an interface to browse scraped [Letterboxd](https
 
 Deployed on [Vercel](https://vercel.com), and configurable via environment variables.
 
+Click [here](https://letterboxd-stats-gules.vercel.app/) to see the current deployment.
+
 ---
 
 ## Environment Variables
