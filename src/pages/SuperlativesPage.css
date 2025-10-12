@@ -95,7 +95,7 @@
 
 .category-content.open {
 	padding: 1.5rem;
-	max-height: 5000px; /* Large enough to accommodate content */
+	max-height: 100%; /* Large enough to accommodate content */
 }
 
 /* Superlatives grid inside category */
