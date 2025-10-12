@@ -12,11 +12,12 @@ Production URL: https://letterboxd-stats-gules.vercel.app/
 
 These variables are loaded via dotenv for local development and should also be added to your Vercel project settings for production.
 
-| Secret Name                      | Description                                     |
-| -------------------------------- | ----------------------------------------------- |
-| `REACT_APP_API_URL`              | Letterboxd API base URL                         |
-| `REACT_APP_FILMS_PER_PAGE`       | Number of films per page (optional, default 20) |
-| `REACT_APP_LETTERBOXD_USERNAMES` | Comma-separated list of Letterboxd usernames    |
+| Secret Name                      | Description                                                                      |
+| -------------------------------- | -------------------------------------------------------------------------------- |
+| `PORT`                           | The port for the app to run on (optional, default 300. Do not include in Vercel) |
+| `REACT_APP_API_URL`              | Letterboxd API base URL                                                          |
+| `REACT_APP_FILMS_PER_PAGE`       | Number of films per page (optional, default 20)                                  |
+| `REACT_APP_LETTERBOXD_USERNAMES` | Comma-separated list of Letterboxd usernames                                     |
 
 ---
 

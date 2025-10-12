@@ -1,0 +1,194 @@
+/* Page container */
+.superlatives-page {
+	padding: 2rem;
+	color: #fff;
+	background-color: #1a1a1a;
+	min-height: 100vh;
+	font-family: Arial, sans-serif;
+}
+
+/* Page title */
+.superlatives-page h1 {
+	color: #fff;
+	text-align: center;
+	margin-bottom: 1.5rem;
+}
+
+/* Loading and error states */
+.loading {
+	text-align: center;
+	color: #fff;
+	font-size: 1.2rem;
+	margin: 2rem 0;
+}
+
+.error {
+	text-align: center;
+	color: #ff4444;
+	font-size: 1.2rem;
+	margin: 2rem 0;
+}
+
+/* Main category card */
+.category-card {
+	background: #2a2a2a;
+	border-radius: 8px;
+	border: 1px solid #444;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+	margin-bottom: 2rem;
+	overflow: hidden;
+}
+
+/* Category header */
+.category-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1.5rem;
+	background: #2a2a2a;
+	cursor: pointer;
+	transition: background-color 0.2s ease, color 0.2s ease;
+	border-bottom: 1px solid #444;
+}
+
+.category-header:hover {
+	background: #333;
+}
+
+.category-title {
+	color: #fff;
+	font-size: 1.5rem;
+	margin: 0;
+	transition: color 0.2s ease;
+}
+
+.category-header:hover .category-title {
+	color: #dd7711;
+}
+
+/* Triangle dropdown indicator */
+.triangle {
+	width: 0;
+	height: 0;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-top: 8px solid #fff;
+	transition: transform 0.3s ease, border-top-color 0.2s ease;
+}
+
+.category-header:hover .triangle {
+	border-top-color: #dd7711;
+}
+
+.triangle.open {
+	transform: rotate(180deg);
+}
+
+/* Category content */
+.category-content {
+	padding: 0;
+	background: #222;
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.4s ease, padding 0.4s ease;
+}
+
+.category-content.open {
+	padding: 1.5rem;
+	max-height: 5000px; /* Large enough to accommodate content */
+}
+
+/* Superlatives grid inside category */
+.superlatives-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+	gap: 1.5rem;
+}
+
+/* Individual superlative sub-card */
+.superlative-card {
+	background: #333;
+	border-radius: 6px;
+	padding: 1.25rem;
+	border: 1px solid #555;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.superlative-card:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Superlative header */
+.superlative-header {
+	padding-bottom: 0.75rem;
+	margin-bottom: 1rem;
+	border-bottom: 1px solid #555;
+}
+
+.superlative-name {
+	color: #dd7711;
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin: 0 0 0.5rem 0;
+}
+
+.superlative-description {
+	color: #ccc;
+	font-size: 0.85rem;
+	font-style: italic;
+	margin: 0;
+}
+
+/* Winners section */
+.winners-section {
+	margin-top: 1rem;
+}
+
+.winner-group {
+	margin-bottom: 1rem;
+}
+
+.winner-label {
+	color: #dd7711;
+	font-weight: bold;
+	font-size: 0.9rem;
+	margin-bottom: 0.5rem;
+	display: block;
+}
+
+.winner-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.winner-item {
+	background: #3a3a3a;
+	padding: 0.5rem 0.75rem;
+	margin-bottom: 0.5rem;
+	border-radius: 4px;
+	border-left: 3px solid #dd7711;
+}
+
+.winner-value {
+	color: #aaa;
+	font-size: 0.85rem;
+	margin-left: 0.5rem;
+	font-style: italic;
+}
+
+/* Empty state */
+.empty-winners {
+	color: #888;
+	font-style: italic;
+	font-size: 0.9rem;
+	text-align: center;
+	padding: 1rem;
+}
+
+/* First category doesn't need top margin */
+.category-card:first-child {
+	margin-top: 0;
+}
