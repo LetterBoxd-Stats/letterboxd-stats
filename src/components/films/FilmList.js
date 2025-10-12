@@ -48,29 +48,27 @@ export default function FilmList({ films }) {
 								// keep your padding visual change:
 								padding: "0 1rem",
 								borderTop: isOpen ? "1px solid #333" : "1px solid transparent",
-							}}	
-
+							}}
 						>
-							 <div className="film-meta-data">	
+							<div className="film-meta-data">
 								<div>
-									{film.metadata.description || "N/A"} 
+									Directed by{" "}
+									{film.metadata.directors.length > 0 ? film.metadata.directors.join(", ") : "N/A"} (
+									{film.metadata.year || "N/A"})
 								</div>
 								<br />
-								<div>
-									Directed by {" "}
-									{film.metadata.directors.length > 0 ? film.metadata.directors.join(", ") : "N/A"} {" "} ({film.metadata.year || "N/A"})
-								</div>								
+								<div className="film-description">{film.metadata.description || "N/A"}</div>
 							</div>
 
-                           <div className="film-likes-watches">
-                            <p>❤️ Likes: {film.num_likes ?? 0}</p>
-							<p>
-								🎯 Like Ratio:{" "}
-								{film.like_ratio != null ? `${(film.like_ratio * 100).toFixed(1)}%` : "N/A"}
-							</p>
-							<p>👀 Watches: {film.num_watches ?? 0}</p>
-						   </div>
-						
+							<div className="film-likes-watches">
+								<p>❤️ Likes: {film.num_likes ?? 0}</p>
+								<p>
+									🎯 Like Ratio:{" "}
+									{film.like_ratio != null ? `${(film.like_ratio * 100).toFixed(1)}%` : "N/A"}
+								</p>
+								<p>👀 Watches: {film.num_watches ?? 0}</p>
+							</div>
+
 							<div className="user-info">
 								<h4>Viewers</h4>
 								{(film.reviews ?? []).map((review) => (
@@ -93,42 +91,43 @@ export default function FilmList({ films }) {
 								))}
 							</div>
 							<div className="film-links">
-                             <p>
-								🔗{" "}
-								<a
-									href={
-										film.film_link.startsWith("http") ? film.film_link : `https://${film.film_link}`
-									}
-									target="_blank"
-									rel="noopener noreferrer"
-									style={{
-										color: "#dd7711",
-										textDecoration: "none",
-									}}
-									onMouseOver={() => {
-										// Change text decoration on hover
-										const link = document.querySelector(`a[href="${film.film_link}"]`);
-										if (link) {
-											link.style.textDecoration = "underline";
+								<p>
+									<a
+										href={
+											film.film_link.startsWith("http")
+												? film.film_link
+												: `https://${film.film_link}`
 										}
-									}}
-									onMouseOut={() => {
-										// Revert text decoration when not hovering
-										const link = document.querySelector(`a[href="${film.film_link}"]`);
-										if (link) {
-											link.style.textDecoration = "none";
-										}
-									}}
-								>
-									View on Letterboxd
-								</a>
-							</p>
-							<p>
-                               <Link to={`/films/${film.film_id}`} className="film-details-link">
-				                View Details →
-			                   </Link>
-							</p>
-						   </div>
+										target="_blank"
+										rel="noopener noreferrer"
+										style={{
+											color: "#dd7711",
+											textDecoration: "none",
+										}}
+										onMouseOver={() => {
+											// Change text decoration on hover
+											const link = document.querySelector(`a[href="${film.film_link}"]`);
+											if (link) {
+												link.style.textDecoration = "underline";
+											}
+										}}
+										onMouseOut={() => {
+											// Revert text decoration when not hovering
+											const link = document.querySelector(`a[href="${film.film_link}"]`);
+											if (link) {
+												link.style.textDecoration = "none";
+											}
+										}}
+									>
+										View on Letterboxd →
+									</a>
+								</p>
+								<p>
+									<Link to={`/films/${film.film_id}`} className="film-details-link">
+										View Details →
+									</Link>
+								</p>
+							</div>
 						</div>
 					</li>
 				);

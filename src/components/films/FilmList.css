@@ -111,19 +111,22 @@
 }
 
 .film-meta-data {
-  width: 100%;
-  margin-top: 10px;
-  font-size: 16px;
+	width: 100%;
+	margin-top: 10px;
+	font-size: 16px;
 }
 
-.film-likes-watches{
+.film-description {
+	font-style: italic;
+}
+
+.film-likes-watches {
 	display: flex;
 	align-items: center;
-	justify-content:space-between;
-	width: 80%;
+	justify-content: space-evenly;
 }
 
-.film-links{
+.film-links {
 	width: 100%;
 	display: flex;
 	align-items: center;
@@ -134,9 +137,7 @@
 .film-details-link {
 	color: #dd7711;
 	text-decoration: none;
-	font-weight: 600;
 	transition: color 0.2s ease;
-
 	text-align: right;
 }
 
