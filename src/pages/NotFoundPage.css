@@ -1,0 +1,108 @@
+/* Page container */
+.not-found-page {
+	padding: 2rem;
+	color: #fff;
+	background-color: #1a1a1a;
+	min-height: 100vh;
+	font-family: Arial, sans-serif;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Content container */
+.not-found-container {
+	text-align: center;
+	max-width: 500px;
+	padding: 2rem;
+}
+
+/* 404 title */
+.not-found-title {
+	color: #dd7711;
+	font-size: 6rem;
+	font-weight: bold;
+	margin: 0;
+	line-height: 1;
+	text-shadow: 0 4px 8px rgba(221, 119, 17, 0.3);
+}
+
+/* Subtitle */
+.not-found-subtitle {
+	color: #fff;
+	font-size: 2rem;
+	margin: 1rem 0 1.5rem 0;
+	font-weight: 600;
+}
+
+/* Message */
+.not-found-message {
+	color: #ccc;
+	font-size: 1.1rem;
+	line-height: 1.6;
+	margin-bottom: 2.5rem;
+}
+
+/* Action buttons */
+.not-found-actions {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.not-found-button {
+	background: #333;
+	color: #fff;
+	border: 1px solid #555;
+	border-radius: 5px;
+	padding: 0.75rem 1.5rem;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	text-decoration: none;
+	display: inline-block;
+}
+
+.not-found-button:hover {
+	background: #444;
+	border-color: #dd7711;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.not-found-button.primary {
+	background: #dd7711;
+	color: #111;
+	border-color: #dd7711;
+}
+
+.not-found-button.primary:hover {
+	background: #bb660f;
+	box-shadow: 0 4px 12px rgba(221, 119, 17, 0.4);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+	.not-found-title {
+		font-size: 4rem;
+	}
+
+	.not-found-subtitle {
+		font-size: 1.5rem;
+	}
+
+	.not-found-message {
+		font-size: 1rem;
+	}
+
+	.not-found-actions {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.not-found-button {
+		width: 200px;
+	}
+}

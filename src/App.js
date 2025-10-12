@@ -6,6 +6,8 @@ import UsersPage from "./pages/UsersPage";
 import UserDetailPage from "./pages/UserDetailPage";
 import SuperlativesPage from "./pages/SuperlativesPage";
 import RecommenderPage from "./pages/RecommenderPage";
+import FilmDetailPage from "./pages/FilmDetailPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
 	return (
@@ -18,6 +20,8 @@ function App() {
 				<Route path="/users/:username" element={<UserDetailPage />} />
 				<Route path="/superlatives" element={<SuperlativesPage />} />
 				<Route path="/recommender" element={<RecommenderPage />} />
+				<Route path="/films/:filmId" element={<FilmDetailPage />} />
+				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 		</Router>
 	);
