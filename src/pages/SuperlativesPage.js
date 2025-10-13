@@ -46,7 +46,7 @@ function SuperlativesPage() {
 			// Move Critic and Film Junkie to user awards
 			if (name === "Critic" || name === "Film Junkie") {
 				groups.user.push(superlative);
-			} else if (name.includes("Enthusiast") || name.includes("Critic")) {
+			} else if (name.includes("Enthusiast") || name.includes("Critic") || name.includes("Watcher")) {
 				groups.genrePersonal.push(superlative);
 			} else if (name.includes("Genre")) {
 				groups.genre.push(superlative);
