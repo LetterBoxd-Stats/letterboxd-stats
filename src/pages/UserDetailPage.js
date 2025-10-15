@@ -175,10 +175,7 @@ function UserDetailPage() {
 			</table>
 
 			{/* Navigation */}
-			<Link
-				to="/users"
-				className="back-link"
-			>
+			<Link to="/users" className="back-link">
 				← Back to Users
 			</Link>
 		</div>
