@@ -101,19 +101,13 @@ function UserDetailPage() {
 			{/* Rating distribution */}
 			<h2>Rating Distribution</h2>
 			<div className="chart-container">
-				<ResponsiveContainer
-					width="100%"
-					height={300}
-				>
+				<ResponsiveContainer width="100%" height={300}>
 					<BarChart data={ratingData}>
-						<CartesianGrid
-							strokeDasharray="3 3"
-							vertical={false}
-						/>
+						<CartesianGrid strokeDasharray="3 3" vertical={false} />
 						<XAxis dataKey="rating" />
 						<YAxis />
 						<Tooltip
-							formatter={value => [value]}
+							formatter={(value) => [value]}
 							labelFormatter={() => ""}
 							contentStyle={{
 								backgroundColor: "white",
@@ -125,10 +119,7 @@ function UserDetailPage() {
 								fontSize: "0.9rem",
 							}}
 						/>
-						<Bar
-							dataKey="count"
-							fill="#82ca9d"
-						/>
+						<Bar dataKey="count" fill="#82ca9d" />
 					</BarChart>
 				</ResponsiveContainer>
 			</div>
@@ -145,7 +136,7 @@ function UserDetailPage() {
 					</tr>
 				</thead>
 				<tbody>
-					{pairwiseData.map(row => (
+					{pairwiseData.map((row) => (
 						<tr key={row.otherUser}>
 							<td>
 								<Link to={`/users/${row.otherUser}`}>{row.otherUser}</Link>
@@ -171,7 +162,7 @@ function UserDetailPage() {
 					</tr>
 				</thead>
 				<tbody>
-					{genreStatsData.map(row => (
+					{genreStatsData.map((row) => (
 						<tr key={row.genre}>
 							<td>{row.genre}</td>
 							<td>{row.avg_rating}</td>
