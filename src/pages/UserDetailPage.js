@@ -56,7 +56,7 @@ function UserDetailPage() {
 		genre,
 		avg_rating: stats.avg_rating != null ? stats.avg_rating.toFixed(3) : "N/A",
 		count: stats.count,
-		percentage: stats.percentage != null ? stats.percentage.toFixed(3) : "N/A",
+		percentage: stats.percentage != null ? stats.percentage.toFixed(1) : "N/A",
 		stddev: stats.stddev != null ? stats.stddev.toFixed(3) : "N/A",
 	}));
 
@@ -155,10 +155,10 @@ function UserDetailPage() {
 				<thead>
 					<tr>
 						<th>Genre</th>
-						<th>Average Rate</th>
+						<th>Average Rating</th>
 						<th>Count</th>
 						<th>Percentage</th>
-						<th>STDDEV</th>
+						<th>Standard Deviation</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -167,7 +167,7 @@ function UserDetailPage() {
 							<td>{row.genre}</td>
 							<td>{row.avg_rating}</td>
 							<td>{row.count}</td>
-							<td>{row.percentage}</td>
+							<td>{row.percentage}%</td>
 							<td>{row.stddev}</td>
 						</tr>
 					))}
