@@ -51,6 +51,15 @@ function UserDetailPage() {
 		num_shared: stats.num_shared,
 	}));
 
+	// For genre stats
+	const genreStatsData = Object.entries(user.stats.genre_stats || {}).map(([genre, stats]) => ({
+		genre,
+		avg_rating: stats.avg_rating != null ? stats.avg_rating.toFixed(3) : "N/A",
+		count: stats.count,
+		percentage: stats.percentage != null ? stats.percentage.toFixed(1) : "N/A",
+		stddev: stats.stddev != null ? stats.stddev.toFixed(3) : "N/A",
+	}));
+
 	return (
 		<div className="user-details-page">
 			<h1>{user.username}</h1>
@@ -135,6 +144,31 @@ function UserDetailPage() {
 							<td>{row.mean_diff}</td>
 							<td>{row.mean_abs_diff}</td>
 							<td>{row.num_shared}</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+
+			{/* Genre Stats */}
+			<h2>Genre Stats</h2>
+			<table className="pairwise-table">
+				<thead>
+					<tr>
+						<th>Genre</th>
+						<th>Average Rating</th>
+						<th>Count</th>
+						<th>Percentage</th>
+						<th>Standard Deviation</th>
+					</tr>
+				</thead>
+				<tbody>
+					{genreStatsData.map((row) => (
+						<tr key={row.genre}>
+							<td>{row.genre}</td>
+							<td>{row.avg_rating}</td>
+							<td>{row.count}</td>
+							<td>{row.percentage}%</td>
+							<td>{row.stddev}</td>
 						</tr>
 					))}
 				</tbody>
