@@ -23,10 +23,10 @@ function FilmsPage() {
 	const [sortOrder, setSortOrder] = useState("asc");
 	const [pendingSortBy, setPendingSortBy] = useState(sortBy);
 	const [pendingSortOrder, setPendingSortOrder] = useState(sortOrder);
-
+	
 	const FILMS_PER_PAGE = process.env.REACT_APP_FILMS_PER_PAGE || 20;
 	const API_BASE_URL = process.env.REACT_APP_API_URL;
-
+	console.log(API_BASE_URL)
 	useEffect(() => {
 		const controller = new AbortController();
 		const fetchFilms = async () => {
