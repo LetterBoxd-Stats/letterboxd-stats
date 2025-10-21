@@ -5,6 +5,10 @@ const LETTERBOXD_USERNAMES = process.env.REACT_APP_LETTERBOXD_USERNAMES
 	? process.env.REACT_APP_LETTERBOXD_USERNAMES.split(",").map((u) => u.trim())
 	: [];
 
+const LETTERBOXD_GENRES = process.env.REACT_APP_LETTERBOXD_GENRES
+	? process.env.REACT_APP_LETTERBOXD_GENRES.split(",").map((u)=>u.trim())
+	: [];
+
 export default function FilmFilterControls({ filters, onChange }) {
 	// update a field/operator/value for a filter row
 	const handleFilterChange = (index, key, value) => {
@@ -42,9 +46,15 @@ export default function FilmFilterControls({ filters, onChange }) {
 		return userFields.includes(field);
 	};
 
+	// Check if field is genre filter (use dropdown)
+	const isGenreField = (field) => {
+		const genreField = ["genres"];
+		return genreField.includes(field)
+	}
+
 	// Check if field is a text search field (free text input)
 	const isTextSearchField = (field) => {
-		const textSearchFields = ["directors", "actors", "studios", "themes", "description", "crew", "genres"];
+		const textSearchFields = ["directors", "actors", "studios", "themes", "description", "crew"];
 		return textSearchFields.includes(field);
 	};
 
@@ -89,9 +99,13 @@ export default function FilmFilterControls({ filters, onChange }) {
 							<option value="not_rated_by">Not Rated By</option>
 						</optgroup>
 
+						{/* genre filter */}
+						<optgroup label="Genre">
+							<option value="genres">Genre</option>
+						</optgroup>
+
 						{/* Text search filters */}
 						<optgroup label="Text Search">
-							<option value="genres">Genre</option>
 							<option value="directors">Director</option>
 							<option value="actors">Actor</option>
 							<option value="studios">Studio</option>
@@ -123,6 +137,19 @@ export default function FilmFilterControls({ filters, onChange }) {
 							{LETTERBOXD_USERNAMES.map((username) => (
 								<option key={username} value={username}>
 									{username}
+								</option>
+							))}
+						</select>
+					) : isGenreField(filter.field) ? (
+						// User dropdown for genre filters
+						<select
+							value={filter.value}
+							onChange={(e) => handleFilterChange(index, "value", e.target.value)}
+						>
+							<option value="">Select genre</option>
+							{LETTERBOXD_GENRES.map((genre) => (
+								<option key={genre} value={genre}>
+									{genre}
 								</option>
 							))}
 						</select>
