@@ -7,10 +7,10 @@ function SuperlativesPage() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const [openCategories, setOpenCategories] = useState({
-		user: true,
-		film: true,
-		genre: true,
-		genrePersonal: true,
+		"User Superlatives": true,
+		"Film Superlatives": true,
+		"Genre Superlatives": true,
+		"Genre Preference Superlatives": true,
 	});
 
 	const API_BASE_URL = process.env.REACT_APP_API_URL;
@@ -30,35 +30,6 @@ function SuperlativesPage() {
 
 		fetchSuperlatives();
 	}, [API_BASE_URL]);
-
-	// Group superlatives by category
-	const groupSuperlatives = (supers) => {
-		const groups = {
-			user: [],
-			film: [],
-			genre: [],
-			genrePersonal: [],
-		};
-
-		supers.forEach((superlative) => {
-			const name = superlative.name;
-
-			// Move Critic and Film Junkie to user awards
-			if (name === "Critic" || name === "Film Junkie") {
-				groups.user.push(superlative);
-			} else if (name.includes("Enthusiast") || name.includes("Critic") || name.includes("Watcher")) {
-				groups.genrePersonal.push(superlative);
-			} else if (name.includes("Genre")) {
-				groups.genre.push(superlative);
-			} else if (name.includes("Movie") || name.includes("Film")) {
-				groups.film.push(superlative);
-			} else {
-				groups.user.push(superlative);
-			}
-		});
-
-		return groups;
-	};
 
 	const formatValue = (value, superlativeName) => {
 		if (value === null || value === undefined) return "";
@@ -152,20 +123,18 @@ function SuperlativesPage() {
 		}));
 	};
 
-	const renderCategory = (categorySupers, categoryKey, title) => {
-		if (categorySupers.length === 0) return null;
-
-		const isOpen = openCategories[categoryKey];
+	const renderCategory = (category) => {
+		const isOpen = openCategories[category.category];
 
 		return (
-			<div className="category-card">
-				<div className="category-header" onClick={() => toggleCategory(categoryKey)}>
-					<h2 className="category-title">{title}</h2>
+			<div key={category._id} className="category-card">
+				<div className="category-header" onClick={() => toggleCategory(category.category)}>
+					<h2 className="category-title">{category.category}</h2>
 					<div className={`triangle ${isOpen ? "open" : ""}`} />
 				</div>
 				<div className={`category-content ${isOpen ? "open" : ""}`}>
 					<div className="superlatives-grid">
-						{categorySupers.map((superlative, index) => (
+						{category.superlatives.map((superlative, index) => (
 							<div key={index} className="superlative-card">
 								<div className="superlative-header">
 									<h3 className="superlative-name">{superlative.name}</h3>
@@ -193,16 +162,10 @@ function SuperlativesPage() {
 			</div>
 		);
 
-	const grouped = groupSuperlatives(superlatives);
-
 	return (
 		<div className="superlatives-page">
 			<h1>Superlatives</h1>
-
-			{renderCategory(grouped.user, "user", "User Awards")}
-			{renderCategory(grouped.film, "film", "Film Awards")}
-			{renderCategory(grouped.genre, "genre", "Genre Awards")}
-			{renderCategory(grouped.genrePersonal, "genrePersonal", "Personal Genre Preferences")}
+			{superlatives.map(renderCategory)}
 		</div>
 	);
 }
