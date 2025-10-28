@@ -1,0 +1,150 @@
+.film-details-page {
+  max-width: 100%;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+.image-container {
+  width: 99%;               
+  height: 40vh;
+  min-height: 300px;
+  max-height: 500px;
+  overflow: hidden;
+  margin: 0 auto;          
+  display: flex;            
+  justify-content: center;
+  align-items: center;
+}
+
+.image-container img {
+  width: 100%;              
+  height: 100%;
+  object-fit: cover;        
+  object-position: center;
+  border-radius: 10px;      
+}
+
+.film-details-meta-data {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  gap: 30px;
+}
+
+.film-detail {
+  flex: 1;
+  min-width: 0;
+}
+
+.film-detail-meta h3 {
+  margin: 0 0 10px 0;
+  font-size: 24px;
+}
+
+.film-detail-meta h4 {
+  margin: 0 0 15px 0;
+  font-size: 18px;
+}
+
+.film-stats {
+  margin: 20px 0;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.film-details-categories {
+  margin-top: 30px;
+}
+
+.film-group-stats {
+  margin-bottom: 5px;
+}
+
+.group-stats{
+  margin-bottom:10px;
+}
+
+tr,td{
+  padding: 6px 10px;
+}
+
+.film-viewers {
+  margin-top: 10px;
+}
+
+.user-review{
+  margin-left:15px;
+}
+
+.react-tabs__tab-list {
+  flex-wrap: wrap;
+}
+
+.film{
+  padding:5px;
+}
+
+.film-crew {
+  padding-right: 20px;
+  white-space: nowrap;
+}
+
+.view-letterbox {
+  text-align: right;
+  padding-right: 30px;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 968px) {
+  .film-details-meta-data {
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  .film-detail {
+    width: 100%;
+  }
+
+  .right.bottom {
+    width: 100%;
+  }
+
+  .film-stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .react-tabs__tab-list {
+    gap: 10px;
+  }
+
+  .react-tabs__tab {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .image-container {
+    height: 30vh;
+    min-height: 200px;
+  }
+
+  .film-detail-meta h3 {
+    font-size: 20px;
+  }
+
+  .film-detail-meta h4 {
+    font-size: 16px;
+  }
+
+  .film-details-meta-data {
+    padding: 10px;
+  }
+
+  .react-tabs__tab-list {
+    justify-content: flex-start;
+  }
+}
