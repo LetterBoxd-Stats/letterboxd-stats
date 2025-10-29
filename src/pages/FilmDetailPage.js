@@ -50,12 +50,12 @@ function FilmDetailPage() {
                     <div className="film-detail-meta">
 						<div>
                            <h3>{film.film_title}</h3>
-						   <h4>Directed by: <span>{film.metadata.directors.join(", ")}</span></h4>
+						   <h4>Directed by <span>{film.metadata.directors.join(", ")}{" "} ({film.metadata.year})</span></h4>
 						   <p>{film.metadata.description}</p>
 						</div>
                         <div className="film-stats">
 							<div>
-                               Average letterbox Rating: {film.avg_rating.toFixed(2)}
+                               Average Letterboxd Rating: {film.avg_rating.toFixed(2)}
 							</div>
 							<div> 
                                Runtime: {film.metadata.runtime} minutes
@@ -148,7 +148,7 @@ function FilmDetailPage() {
 							</tr>
 							<tr>
 								<td>Rating Standard Deviation</td>
-								<td>{film.stddev_rating ?film.stddev_rating:"N/A" }</td>
+								<td>{film.stdev_rating ?film.stdev_rating.toFixed(2):"N/A" }</td>
 							</tr>
 							</tbody>							
 						 </table>
