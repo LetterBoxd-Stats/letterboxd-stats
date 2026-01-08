@@ -132,6 +132,7 @@ function UserDetailPage() {
 						<th>User</th>
 						<th>Mean Difference</th>
 						<th>Mean Absolute Difference</th>
+						<th>Correlation</th>
 						<th>Films Shared</th>
 					</tr>
 				</thead>
@@ -143,6 +144,7 @@ function UserDetailPage() {
 							</td>
 							<td>{row.mean_diff}</td>
 							<td>{row.mean_abs_diff}</td>
+							<td>{row.correlation != null ? row.correlation.toFixed(3) : "N/A"}</td>
 							<td>{row.num_shared}</td>
 						</tr>
 					))}
