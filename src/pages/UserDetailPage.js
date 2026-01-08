@@ -48,6 +48,7 @@ function UserDetailPage() {
 		otherUser,
 		mean_diff: stats.mean_diff != null ? stats.mean_diff.toFixed(3) : "N/A",
 		mean_abs_diff: stats.mean_abs_diff != null ? stats.mean_abs_diff.toFixed(3) : "N/A",
+		correlation: stats.correlation != null ? stats.correlation.toFixed(3) : "N/A",
 		num_shared: stats.num_shared,
 	}));
 
@@ -144,7 +145,7 @@ function UserDetailPage() {
 							</td>
 							<td>{row.mean_diff}</td>
 							<td>{row.mean_abs_diff}</td>
-							<td>{row.correlation != null ? row.correlation.toFixed(3) : "N/A"}</td>
+							<td>{row.correlation}</td>
 							<td>{row.num_shared}</td>
 						</tr>
 					))}
