@@ -1,0 +1,438 @@
+/* RecommenderPage.css */
+.recommender-page {
+	padding: 2rem;
+	color: #fff;
+	background-color: #1a1a1a;
+	min-height: 100vh;
+	font-family: Arial, sans-serif;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.recommender-page h1 {
+	color: #dd7711;
+	text-align: center;
+	margin-bottom: 1.5rem;
+}
+
+.recommender-page h2 {
+	color: #fff;
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+	font-size: 1.5rem;
+	border-bottom: 1px solid #333;
+	padding-bottom: 0.5rem;
+}
+
+/* User Selection */
+.user-selection {
+	background: #222;
+	padding: 1.5rem;
+	border-radius: 8px;
+	margin-bottom: 2rem;
+}
+
+.user-selection h3 {
+	color: #dd7711;
+	margin-bottom: 1rem;
+	font-size: 1.3rem;
+}
+
+.user-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	margin-bottom: 1.5rem;
+}
+
+.user-checkbox {
+	display: flex;
+	align-items: center;
+	background: #333;
+	padding: 0.5rem 0.75rem;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background 0.2s;
+	font-size: 0.9rem;
+}
+
+.user-checkbox:hover {
+	background: #3a3a3a;
+}
+
+.user-checkbox input {
+	margin-right: 0.5rem;
+}
+
+.user-checkbox.selected {
+	background: #dd7711;
+	color: #111;
+	font-weight: bold;
+}
+
+.user-checkbox.selected:hover {
+	background: #ff8c1a;
+}
+
+.user-selection-info {
+	color: #ccc;
+	font-size: 0.9rem;
+	margin-bottom: 1rem;
+	font-style: italic;
+}
+
+.user-selection-controls {
+	display: flex;
+	gap: 1rem;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	margin-top: 1rem;
+}
+
+.watchers-select {
+	padding: 0.5rem;
+	border-radius: 4px;
+	background: #333;
+	color: #fff;
+	border: 1px solid #444;
+	min-width: 250px;
+}
+
+/* Filters */
+.filters-section {
+	background: #222;
+	padding: 1.5rem;
+	border-radius: 8px;
+	margin-bottom: 2rem;
+}
+
+.filters-section h3 {
+	color: #dd7711;
+	margin-bottom: 1rem;
+	font-size: 1.3rem;
+}
+
+.filter-row {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	gap: 1rem;
+	margin-bottom: 1rem;
+}
+
+.filter-group {
+	display: flex;
+	flex-direction: column;
+}
+
+.filter-group label {
+	margin-bottom: 0.5rem;
+	color: #ccc;
+	font-size: 0.9rem;
+}
+
+.filter-input,
+.filter-select {
+	padding: 0.5rem;
+	border-radius: 4px;
+	background: #333;
+	color: #fff;
+	border: 1px solid #444;
+	font-size: 0.9rem;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+	outline: none;
+	border-color: #dd7711;
+}
+
+.numeric-filter {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+}
+
+.numeric-filter input {
+	flex: 1;
+}
+
+.filter-unit {
+	color: #999;
+	font-size: 0.9rem;
+	white-space: nowrap;
+}
+
+.genre-multiselect {
+	min-height: 100px;
+}
+
+/* Action Buttons */
+.action-buttons {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	margin: 2rem 0;
+}
+
+.action-btn {
+	background-color: #dd7711;
+	color: #111;
+	border: none;
+	border-radius: 5px;
+	padding: 0.75rem 1.5rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	box-shadow: 0 2px 6px rgba(221, 119, 17, 0.5);
+	font-size: 1rem;
+}
+
+.action-btn:hover {
+	background-color: #bb660f;
+	box-shadow: 0 4px 10px rgba(187, 102, 15, 0.7);
+}
+
+.action-btn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.action-btn.secondary {
+	background-color: #333;
+	color: #fff;
+	box-shadow: none;
+}
+
+.action-btn.secondary:hover {
+	background-color: #444;
+}
+
+/* Results */
+.recommendation-results {
+	margin-top: 2rem;
+}
+
+.recommendations-list {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.recommendation-card {
+	background: #222;
+	border-radius: 8px;
+	overflow: hidden;
+	transition: transform 0.2s ease;
+	border: 1px solid #333;
+}
+
+.recommendation-card:hover {
+	transform: translateY(-3px);
+	border-color: #444;
+}
+
+.recommendation-header {
+	background: #2a2a2a;
+	padding: 1rem;
+	border-bottom: 1px solid #333;
+}
+
+.recommendation-title-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 0.5rem;
+}
+
+.recommendation-title {
+	color: #dd7711;
+	font-size: 1.3rem;
+	margin: 0;
+	flex: 1;
+}
+
+.recommendation-year {
+	color: #999;
+	font-size: 1rem;
+	margin-left: 0.5rem;
+}
+
+.recommendation-directors {
+	color: #ccc;
+	font-size: 0.95rem;
+	margin-bottom: 0.5rem;
+}
+
+.recommendation-meta {
+	display: flex;
+	gap: 1rem;
+	color: #999;
+	font-size: 0.9rem;
+}
+
+.recommendation-content {
+	padding: 1rem;
+}
+
+.recommendation-description {
+	color: #ccc;
+	font-size: 0.95rem;
+	line-height: 1.5;
+	margin-bottom: 1rem;
+}
+
+.recommendation-stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 1rem;
+	margin-bottom: 1rem;
+	padding: 1rem;
+	background: #2a2a2a;
+	border-radius: 6px;
+}
+
+.stat-group h4 {
+	color: #dd7711;
+	margin-bottom: 0.5rem;
+	font-size: 0.9rem;
+}
+
+.predicted-ratings {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}
+
+.predicted-rating {
+	background: rgba(221, 119, 17, 0.2);
+	color: #ff8c1a;
+	padding: 0.4rem 0.75rem;
+	border-radius: 4px;
+	font-size: 0.85rem;
+}
+
+.predicted-rating.high {
+	background: rgba(221, 119, 17, 0.2);
+	color: #ff8c1a;
+}
+
+.watches-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.watch-status {
+	background: #333;
+	padding: 0.3rem 0.6rem;
+	border-radius: 4px;
+	font-size: 0.8rem;
+}
+
+.watch-status.rated {
+	background: rgba(221, 119, 17, 0.2);
+	color: #ff8c1a;
+}
+
+.watch-status.watched {
+	background: rgba(221, 119, 17, 0.2);
+	color: #ff8c1a;
+}
+
+.watch-status.liked {
+	background: rgba(221, 119, 17, 0.2);
+	color: #ff8c1a;
+}
+
+.recommendation-links {
+	display: flex;
+	gap: 1rem;
+	margin-top: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid #333;
+}
+
+.recommendation-link {
+	color: #dd7711;
+	text-decoration: none;
+	font-size: 0.9rem;
+	padding: 0.5rem 1rem;
+	border: 1px solid #dd7711;
+	border-radius: 4px;
+	transition: all 0.2s;
+}
+
+.recommendation-link:hover {
+	background: #dd7711;
+	color: #111;
+}
+
+.no-results {
+	text-align: center;
+	color: #999;
+	padding: 3rem;
+	font-style: italic;
+	background: #222;
+	border-radius: 8px;
+}
+
+/* Loading and Error States */
+.loading {
+	text-align: center;
+	color: #dd7711;
+	padding: 2rem;
+	font-size: 1.2rem;
+	background: #222;
+	border-radius: 8px;
+}
+
+.error {
+	text-align: center;
+	color: #ff6b6b;
+	padding: 1.5rem;
+	background: rgba(255, 107, 107, 0.1);
+	border-radius: 8px;
+	margin: 1rem 0;
+	font-size: 0.95rem;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+	.recommender-page {
+		padding: 1rem;
+	}
+
+	.filter-row {
+		grid-template-columns: 1fr;
+	}
+
+	.action-buttons {
+		flex-direction: column;
+	}
+
+	.user-selection-controls {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.watchers-select {
+		min-width: auto;
+	}
+
+	.recommendation-title-row {
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.recommendation-stats {
+		grid-template-columns: 1fr;
+	}
+
+	.recommendation-links {
+		flex-direction: column;
+	}
+
+	.user-list {
+		justify-content: center;
+	}
+}
